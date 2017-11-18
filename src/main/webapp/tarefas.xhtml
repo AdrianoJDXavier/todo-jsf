@@ -9,6 +9,9 @@
     <h:body>
         <div style="width: 480px; margin: 0 auto;">
             <h1>TO-DO List Dinâmico</h1>
+            <span style="float: right">#{usuarioLogado.usuario.nome} #{usuarioLogado.usuario.sobrenome} | Sair</span>
+            <div style="clear: both;"></div>
+            <hr/>
             <p>Registre suas tarefas!</p>
             <ul>
             <ui:repeat value="#{tarefasBean.tarefas}" 

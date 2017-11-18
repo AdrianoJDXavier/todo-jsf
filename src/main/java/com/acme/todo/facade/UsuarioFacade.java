@@ -6,9 +6,12 @@
 package com.acme.todo.facade;
 
 import com.acme.todo.model.Usuario;
+import com.acme.todo.util.Hash;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -28,5 +31,17 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     public UsuarioFacade() {
         super(Usuario.class);
     }
-    
+
+    public Usuario buscaPorCredenciais(String email, String senha) {
+        TypedQuery<Usuario> q = em.createQuery("select u from Usuario u where u.email = :email and u.senha = :senha", Usuario.class);
+        q.setParameter("email", email);
+        q.setParameter("senha", Hash.md5(senha));
+        Usuario usuario;
+        try {
+            usuario = q.getSingleResult();
+        } catch (NoResultException e) {
+            usuario = null;
+        }
+        return usuario;
+    }
 }
